@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/richardcrichardc/digitalwhanganui/render"
-	"github.com/richardcrichardc/digitalwhanganui/validate"
+	"digitalwhanganui/render"
+	"digitalwhanganui/validate"
 	"html/template"
 	"net/http"
 	"strings"

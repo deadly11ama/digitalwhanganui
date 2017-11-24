@@ -3,12 +3,11 @@ package main
 import (
 	"bytes"
 	"log"
-	"net/smtp"
 	"path/filepath"
 	"strings"
 	"text/template"
 
-	"gopkg.in/alexcesaro/quotedprintable.v1"
+	"gopkg.in/gomail.v2"
 )
 
 var emailTemplates *template.Template
@@ -25,25 +24,23 @@ func sendMail(to, subject, template string, data map[string]string) {
 	checkHeaderText(to)
 	checkHeaderText(subject)
 
-	var buf bytes.Buffer
-	buf.WriteString("From: " + fromEmail() + "\r\n")
-	buf.WriteString("To: " + to + "\r\n")
-	buf.WriteString("Subject: " + subject + "\r\n")
-	buf.WriteString("Content-Type: text/html; charset=UTF-8\r\n")
-	buf.WriteString("Content-Transfer-Encoding: quoted-printable\r\n")
-	buf.WriteString("\r\n")
+	var b bytes.Buffer
 
-	QPWriter := quotedprintable.NewEncoder(&buf)
-
-	err := emailTemplates.ExecuteTemplate(QPWriter, template, data)
+	err := emailTemplates.ExecuteTemplate(&b, template, data)
 	if err != nil {
 		panic(err)
 	}
-	msg := buf.Bytes()
 
-	auth := smtp.CRAMMD5Auth(Config.SMTPUser, Config.SMTPPassword)
-	err = smtp.SendMail(Config.SMTPServer, auth, Config.AdminEmailAddress, []string{to}, msg)
-	if err != nil {
+	m := gomail.NewMessage()
+	m.SetHeader("From", fromEmail())
+	m.SetHeader("To", to)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", b.String())
+
+	d := gomail.NewDialer(Config.SMTPServer, Config.SMTPPort, Config.SMTPUser, Config.SMTPPassword)
+
+	// Send the email to Bob, Cora and Dan.
+	if err := d.DialAndSend(m); err != nil {
 		panic(err)
 	}
 

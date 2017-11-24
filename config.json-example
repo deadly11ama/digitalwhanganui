@@ -6,6 +6,7 @@
   "PublicDir": "public",
 
   "SMTPServer": "host:port",
+  "SMTPPort": 587,
   "SMTPUser": "digitalwhanganui",
   "SMTPPassword": "topsecret",
 

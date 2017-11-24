@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/richardcrichardc/digitalwhanganui/martini"
+	"digitalwhanganui/martini"
 )
 
 type Session struct {
@@ -135,7 +135,7 @@ func fetchSession(sessionId string) (map[string]interface{}, time.Time) {
 		panic(err)
 	}
 
-	expires, err := time.Parse("2006-01-02 15:04:05", expiresString)
+	expires, err := time.Parse("2006-01-02 15:04:05-07:00", expiresString)
 	if err != nil {
 		panic(err)
 	}

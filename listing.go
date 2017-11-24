@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/richardcrichardc/digitalwhanganui/martini"
-	"github.com/richardcrichardc/digitalwhanganui/render"
+	"digitalwhanganui/martini"
+	"digitalwhanganui/render"
 )
 
 func individualListing(r render.Render, params martini.Params) {

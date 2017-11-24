@@ -10,6 +10,7 @@ var Config struct {
 	Debug                                                  bool
 	TemplateDir, EmailTemplateDir, PublicDir               string
 	SMTPServer, SMTPUser, SMTPPassword                     string
+	SMTPPort					       int
 	AdminEmailAddress, ErrorEmailAddress, FromEmailAddress string
 }
 
